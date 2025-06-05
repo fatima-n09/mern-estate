@@ -1,16 +1,21 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
+import { useDispatch, useSelector } from "react-redux";
+import {
+  signInStart,
+  signInSuccess,
+  signInFailure,
+  signInStart,
+} from "../redux/User/User";
 export const SignIn = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
 
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const { loading, error} = useSelector((state) => state.user);
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
@@ -18,7 +23,7 @@ export const SignIn = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      setLoading(true);
+      dispatch(signInStart());
       setError(null);
 
       const res = await fetch("/api/auth/signin", {
@@ -32,16 +37,14 @@ export const SignIn = () => {
       const data = await res.json();
 
       if (data.success === false) {
-        setError(data.message || "Something went wrong");
-        setLoading(false);
+        dispatch(signInFailure(data.message));
         return;
       }
 
-      setLoading(false);
+      dispatch(signInSuccess(data.user));
       navigate("/");
     } catch (error) {
-      setLoading(false);
-      setError(error.message || "Something went wrong");
+      dispatch(signInFailure(error.message || "Something went wrong"));
     }
   };
 

@@ -5,7 +5,6 @@ import {
   signInStart,
   signInSuccess,
   signInFailure,
-  signInStart,
 } from "../redux/User/User";
 export const SignIn = () => {
   const [formData, setFormData] = useState({
@@ -24,7 +23,6 @@ export const SignIn = () => {
     e.preventDefault();
     try {
       dispatch(signInStart());
-      setError(null);
 
       const res = await fetch("/api/auth/signin", {
         method: "POST",

@@ -16,6 +16,10 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    avator: {
+      type: String,
+      default: "https://www.pinterest.com/pin/17732992277868306/"
+    },
   },
   { timestamps: true }
 );

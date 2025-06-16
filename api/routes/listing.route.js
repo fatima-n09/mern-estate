@@ -1,6 +1,6 @@
 import express from 'express';
-import { verifyToken } from '../utels/User';
-import { createListing } from '../controller/listing.controller';
+import { verifyToken } from '../utels/User.js';
+import { createListing } from '../controller/listing.controller.js';
 
 const router = express.Router();
  
